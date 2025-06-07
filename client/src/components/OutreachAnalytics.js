@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import AnalyticsBlock from "./AnalyticsBlock";
 import { matchRepliesWithOutreach } from "../utils/matchRepliesWithOutreach";
+import BetaDistributionChart from "./BetaDistributionChart";
+import { computeBetaDistributions } from "../utils/computeBetaDistributions";
 
 const OutreachAnalytics = () => {
   const [loading, setLoading] = useState(true);
   const [outreachData, setOutreachData] = useState([]);
   const [repliesData, setRepliesData] = useState([]);
+  const [betaDistributions, setBetaDistributions] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -17,11 +20,13 @@ const OutreachAnalytics = () => {
       const repliesJson = await repliesRes.json();
 
       const enrichedReplies = matchRepliesWithOutreach(json, repliesJson);
-      console.log("enriched");
-      console.log(enrichedReplies);
 
       setOutreachData(json);
       setRepliesData(enrichedReplies);
+
+      const betaDistributions = computeBetaDistributions(json, enrichedReplies);
+      setBetaDistributions(betaDistributions);
+
       setLoading(false);
     };
     loadData();
@@ -35,7 +40,10 @@ const OutreachAnalytics = () => {
       ) : (
         <>
           <AnalyticsBlock title="Outreach" rawData={outreachData} />
+          <hr style={{ margin: "3rem 0" }} />
           <AnalyticsBlock title="Replies" rawData={repliesData} />
+          <hr style={{ margin: "3rem 0" }} />
+          <BetaDistributionChart data={betaDistributions} />
         </>
       )}
     </div>

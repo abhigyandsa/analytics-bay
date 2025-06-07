@@ -34,7 +34,7 @@ const AnalyticsBlock = ({ title, rawData }) => {
   const [employeeList, setEmployeeList] = useState([]);
 
   useEffect(() => {
-    const employees = Array.from(new Set(rawData.map(d => d.employee)));
+    const employees = Array.from(new Set(rawData.map(d => d.employee))).filter(emp => emp && emp.trim() !== "");
     setEmployeeList(["Total", "Average", ...employees]);
 
     const allDates = rawData
