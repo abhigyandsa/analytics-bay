@@ -12,13 +12,9 @@ const OutreachAnalytics = () => {
       setLoading(true);
       const res = await fetch("/api/outreach");
       const json = await res.json();
-      console.log("outreach");
-      console.log(json);
 
       const repliesRes = await fetch("/api/replies");
       const repliesJson = await repliesRes.json();
-      console.log("replies");
-      console.log(repliesJson);
 
       const enrichedReplies = matchRepliesWithOutreach(json, repliesJson);
       console.log("enriched");

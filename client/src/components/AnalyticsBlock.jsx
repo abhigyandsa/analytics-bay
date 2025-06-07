@@ -83,13 +83,13 @@ const AnalyticsBlock = ({ title, rawData }) => {
   const totalCount = usingTotalOrAverage
     ? filteredData.length
     : selectedEmployees.reduce((sum, emp) =>
-        sum + filteredData.filter(d => d.employee === emp).length, 0);
+      sum + filteredData.filter(d => d.employee === emp).length, 0);
 
   const uniqueProfiles = usingTotalOrAverage
     ? new Set(filteredData.map(d => d.profile_link)).size
     : new Set(filteredData
-        .filter(d => selectedEmployees.includes(d.employee))
-        .map(d => d.profile_link)).size;
+      .filter(d => selectedEmployees.includes(d.employee))
+      .map(d => d.profile_link)).size;
 
   const cardLabel = usingTotalOrAverage ? "Total" : "Sum";
 
@@ -149,7 +149,7 @@ const AnalyticsBlock = ({ title, rawData }) => {
       <div style={{ display: "flex", gap: "2rem", marginBottom: "2rem" }}>
         <div style={{ border: "1px solid #ddd", borderRadius: "8px", padding: "1rem", minWidth: "200px" }}>
           <h2>{totalCount}</h2>
-          <p>{cardLabel} {title === "Replies" ? "Replies" : "Messages"}</p>
+          <p>{cardLabel} {title}</p>
         </div>
         <div style={{ border: "1px solid #ddd", borderRadius: "8px", padding: "1rem", minWidth: "200px" }}>
           <h2>{uniqueProfiles}</h2>

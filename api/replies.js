@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
       if (!profile) continue;
 
       replies.push({
-        profile,
+        profile_link: profile,
         date: date || "",
       });
     }

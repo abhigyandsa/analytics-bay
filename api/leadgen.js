@@ -33,9 +33,9 @@ module.exports = async (req, res) => {
         if (!profile) continue;
 
         allLeads.push({
-          profile: profile,
+          profile_link: profile,
           date: date || "",
-          emp_name: empName,
+          employee: empName,
         });
       }
     }

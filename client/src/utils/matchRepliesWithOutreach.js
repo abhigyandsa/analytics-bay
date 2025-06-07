@@ -15,11 +15,11 @@ const parseDate = (str) => {
 };
 
 export const matchRepliesWithOutreach = (outreachData, repliesData) => {
-  // Group outreach entries by profile_link
   const outreachByProfile = {};
 
   outreachData.forEach(entry => {
     const profile = entry.profile_link;
+
     if (!profile || !entry.date) return;
 
     if (!outreachByProfile[profile]) {
@@ -40,18 +40,25 @@ export const matchRepliesWithOutreach = (outreachData, repliesData) => {
   // Match replies
   const matchedReplies = repliesData.map(reply => {
     const profile = reply.profile_link;
+    if (!profile || !reply.date) {
+      return { ...reply, employee: null, replyDateObj: new Date("Invalid") };
+    }
     const replyDateObj = parseDate(reply.date);
 
     const outreachList = outreachByProfile[profile] || [];
 
     // Find the latest outreach before the reply
     const lastOutreach = [...outreachList]
-      .filter(entry => entry.dateObj < replyDateObj)
+      .filter(entry => entry.dateObj <= replyDateObj)
       .pop();
+
+    if (!lastOutreach) {
+      console.warn("No matching outreach found for reply:", reply);
+    }
 
     return {
       ...reply,
-      matched_employee: lastOutreach ? lastOutreach.employee : null,
+      employee: lastOutreach ? lastOutreach.employee : null,
       replyDateObj,
     };
   });
